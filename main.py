@@ -19,4 +19,3 @@ def scrape_website(url):
 
 url = 'https://shop.mango.com/gb/women/skirts-midi/midi-satin-skirt_17042020.html?c=99'
 json = scrape_website(url)
-a=2
