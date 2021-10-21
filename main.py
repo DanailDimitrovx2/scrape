@@ -2,17 +2,24 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import json
 
+# Before testing, install chromedriver in order to proceed with the following command:
+# sudo apt install chromium-chromedriver
 
 def scrape_website(url):
         driver = webdriver.Chrome('/usr/lib/chromium-browser/chromedriver')
         driver.get(url)
-        dict = {}
-        dict['name'] = driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[1]/div[1]/h1').text
-        dict['price'] = float(driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[1]/div[2]/meta[2]').get_attribute('content'))
-        dict['color'] = driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[2]/div[2]/span').text
+        name = driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[1]/div[1]/h1').text
+        price = driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[1]/div[2]/meta[2]').get_attribute('content')
+        color = driver.find_element(By.XPATH, '//*[@id="app"]/main/div/div[3]/div[2]/div[2]/span').text
         sizes = driver.find_elements(By.CLASS_NAME, 'size-unavailable')
         sizes.extend(driver.find_elements(By.CLASS_NAME, 'size-available'))
-        dict['size'] = [x.get_attribute('data-size') for x in sizes]
+        size = [x.get_attribute('data-size') for x in sizes]
+        dict = {
+                'name': name,
+                'price': float(price),
+                'color': color,
+                'size': size
+        }
 
         return json.dumps(dict)
 
